@@ -99,10 +99,24 @@ public class MyGame extends Game implements ApplicationListener {
 			batch.end();
 			for (int i = 0; i < 50; i++) {
 			    if(enemies[i].enemyHitbox != null) {
-			    	if(enemies[i].dx >= 0)
-                    	enemies[i].enemyHitbox.x += (enemies[i].dx + deadCounter/10.0) * 1.5;
-			    	else
-						enemies[i].enemyHitbox.x += (enemies[i].dx - deadCounter/10.0) * 1.5;
+                    if(deadCounter > 45){
+                        if(enemies[i].dx >= 0)
+                            enemies[i].enemyHitbox.x += (enemies[i].dx + deadCounter/10.0) * 4;
+                        else
+                            enemies[i].enemyHitbox.x += (enemies[i].dx - deadCounter/10.0) * 4;
+                    }
+			        else if(deadCounter > 25){
+                        if(enemies[i].dx >= 0)
+                            enemies[i].enemyHitbox.x += (enemies[i].dx + deadCounter/10.0) * 1.75;
+                        else
+                            enemies[i].enemyHitbox.x += (enemies[i].dx - deadCounter/10.0) * 1.75;
+                    }
+			        else {
+                        if (enemies[i].dx >= 0)
+                            enemies[i].enemyHitbox.x += (enemies[i].dx + deadCounter / 10.0) * 1.5;
+                        else
+                            enemies[i].enemyHitbox.x += (enemies[i].dx - deadCounter / 10.0) * 1.5;
+                    }
                     if (enemies[i].enemyHitbox.x > w || enemies[i].enemyHitbox.x < 0) {
                         for (int j = 0; j < 50; j++) {
                             if(enemies[j].enemyHitbox != null) {
@@ -130,6 +144,10 @@ public class MyGame extends Game implements ApplicationListener {
 		}
 		else if(gameLost){
 			batch.begin();
+			for (int i = 0; i < 50; i++) {
+				if (!enemies[i].dead && enemies[i].enemyHitbox != null)
+					batch.draw(enemy, enemies[i].enemyHitbox.x, enemies[i].enemyHitbox.y, enemies[i].enemyHitbox.width, enemies[i].enemyHitbox.height);
+			}
 			batch.draw(ship, player.playerHitbox.x, player.playerHitbox.y, player.playerHitbox.width, player.playerHitbox.height);
 			batch.draw(gameOver, w - 1350, h/2 - 300, 1000, 1000);
 			font.draw(batch, "You Lost!", w-1000, h - 500);
